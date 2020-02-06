@@ -1,0 +1,1 @@
+![logo](https://raw.githubusercontent.com/teobouvard/igclib/master/assets/igclib_logo.svg)
