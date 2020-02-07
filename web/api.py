@@ -9,6 +9,7 @@ from flask import Flask, jsonify, request, send_file
 from igclib.core.xc import XC
 
 app = Flask(__name__)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 load_dotenv('../.env')
 
 
@@ -17,31 +18,41 @@ def index():
     return send_file('static/index.html')
 
 
-@app.route('/xc')
-def flight():
-    airspace = request.args.get('airspace')
-    if airspace is None:
-        if 'EA_FILE' not in environ:
-            return jsonify({'error': 'no airspace file available'})
-        airspace = environ.get('EA_FILE')
-    print(f'AIRSPACE = {airspace}')
+@app.route('/xc', methods=['GET', 'POST'])
+def xc():
+    if request.method == 'GET':
+        return send_file('static/airspace_validation.html')
 
-    flight = request.args.get('flight')
-    if flight is None:
-        return jsonify({'error': 'missing flight argument'})
+    if 'flight' not in request.files:
+        return redirect(request.url)
+
+    flight = request.files['flight']
+    tf_flight = NamedTemporaryFile()
+    flight.save(tf_flight)
+
+    tf_airspace = None
+    if 'airspace' not in request.files:
+        if 'AIRSPACE_FILE' not in environ:
+            airspace = None
+        else:
+            airspace = environ['AIRSPACE_FILE']
+    else:
+        tf_airspace = NamedTemporaryFile()
+        airspace = request.files['airspace']
+        airspace.save(tf_airspace)
+
     try:
-        flight = b64decode(flight, validate=True)
-    except binascii.Error:
-        return jsonify({'error': 'bad base64 encoding'})
+        airspace = tf_airspace.name if tf_airspace is not None else airspace
+        xc = XC(tracks=tf_flight.name, airspace=airspace, progress='gui')
+    except KeyError:
+        return jsonify({'error': 'bad igc file'})
+    finally:
+        tf_flight.close()
+        if tf_airspace is not None:
+            tf_airspace.close()
 
-    with NamedTemporaryFile() as tf:
-        tf.write(flight)
-        try:
-            xc = XC(tracks=tf.name, airspace=airspace, progress='gui')
-        except KeyError:
-            return jsonify({'error': 'bad igc file'})
-    return jsonify(xc.serialize())
+        return jsonify(xc.serialize())
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
