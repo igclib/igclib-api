@@ -2,6 +2,10 @@
 
 ## Setup
 
-* rename .env.default to .env and set AIRSPACE_FILE to point to an openair file
-* make install
-* make runserver
+```
+git clone https://github.com/teobouvard/igclib-api.git
+mv .env.default .env
+echo "location/of/openair/file" >> .env
+make install
+make runserver
+```
