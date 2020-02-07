@@ -45,14 +45,13 @@ def xc():
     try:
         airspace = tf_airspace.name if tf_airspace is not None else airspace
         xc = XC(tracks=tf_flight.name, airspace=airspace, progress='gui')
-    except KeyError:
+        return jsonify(xc.serialize())
+    except ValueError:
         return jsonify({'error': 'bad igc file'})
     finally:
         tf_flight.close()
         if tf_airspace is not None:
             tf_airspace.close()
-
-        return jsonify(xc.serialize())
 
 
 if __name__ == '__main__':
