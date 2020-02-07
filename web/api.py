@@ -1,13 +1,11 @@
 from tempfile import NamedTemporaryFile
 from os import environ
 
-from dotenv import load_dotenv
 from flask import Flask, jsonify, request, send_file
 from igclib.core.xc import XC
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
-load_dotenv('../.env')
 
 
 @app.route('/')
@@ -52,4 +50,4 @@ def xc():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
