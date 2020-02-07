@@ -14,11 +14,12 @@ load_dotenv('../.env')
 
 
 @app.route('/')
+@app.route('/api')
 def index():
     return send_file('static/index.html')
 
 
-@app.route('/xc', methods=['GET', 'POST'])
+@app.route('/api/xc', methods=['GET', 'POST'])
 def xc():
     if request.method == 'GET':
         return send_file('static/airspace_validation.html')
