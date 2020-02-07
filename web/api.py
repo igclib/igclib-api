@@ -1,7 +1,4 @@
-import binascii
 from tempfile import NamedTemporaryFile
-from base64 import b64decode
-from io import StringIO
 from os import environ
 
 from dotenv import load_dotenv
@@ -28,8 +25,8 @@ def xc():
         return redirect(request.url)
 
     flight = request.files['flight']
-    tf_flight = NamedTemporaryFile()
-    flight.save(tf_flight)
+    tf_flight = NamedTemporaryFile(suffix=flight.filename)
+    flight.save(tf_flight.name)
 
     tf_airspace = None
     if 'airspace' not in request.files:
@@ -40,11 +37,11 @@ def xc():
     else:
         tf_airspace = NamedTemporaryFile()
         airspace = request.files['airspace']
-        airspace.save(tf_airspace)
+        airspace.save(tf_airspace.name)
 
     try:
         airspace = tf_airspace.name if tf_airspace is not None else airspace
-        xc = XC(tracks=tf_flight.name, airspace=airspace, progress='gui')
+        xc = XC(tracks=tf_flight.name, airspace=airspace, progress='silent')
         return jsonify(xc.serialize())
     except ValueError:
         return jsonify({'error': 'bad igc file'})
