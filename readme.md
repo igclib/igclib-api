@@ -8,6 +8,12 @@ make install
 make runserver
 ```
 
+## Usage
+
+```
+curl -F 'flight=@/path/to/igc/file' -F 'airspace=@/path/to/openair/file' http://ENDPOINT/api/xc
+```
+
 ## Environment variables
 
 Make sure to define

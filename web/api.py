@@ -1,7 +1,7 @@
 from tempfile import NamedTemporaryFile
 from os import environ
 
-from flask import Flask, jsonify, request, send_file
+from flask import Flask, jsonify, request, send_file, redirect
 from igclib.core.xc import XC
 
 app = Flask(__name__)
