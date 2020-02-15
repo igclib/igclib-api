@@ -27,4 +27,4 @@ Make sure to define
 
 ## Requirements
 
-- [igclib](https://www.github.com/teobouvard/igclib)
+- [igclib](https://www.github.com/igclib/igclib)
