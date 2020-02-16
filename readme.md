@@ -1,4 +1,4 @@
-![igclib logo](https://cdn.jsdelivr.net/gh/teobouvard/igclib@master/assets/igclib_logo.svg)
+![igclib banner](https://cdn.jsdelivr.net/gh/igclib/assets@master/img/banner/igclib_banner.svg)
 
 ## Setup
 
@@ -27,4 +27,4 @@ Make sure to define
 
 ## Requirements
 
-- [igclib](https://www.github.com/teobouvard/igclib)
+- [igclib](https://www.github.com/igclib/igclib)
