@@ -28,20 +28,17 @@ def xc():
     flight.save(tf_flight.name)
 
     tf_airspace = None
-    if 'airspace' not in request.files:
-        if 'AIRSPACE_FILE' not in os.environ:
-            airspace = None
-        else:
-            airspace = os.environ['AIRSPACE_FILE']
+    if not request.files['airspace'].content_length:
+        airspace_name = os.environ.get('AIRSPACE_FILE', '')
     else:
         tf_airspace = NamedTemporaryFile()
         airspace = request.files['airspace']
         airspace.save(tf_airspace.name)
+        airspace_name = tf_airspace.name
 
     try:
-        airspace = tf_airspace.name if tf_airspace is not None else airspace
         result = check_output([f'{os.environ["HOME"]}.local/bin/igclib', 'xc',
-                               '--flight', tf_flight.name, '--airspace', airspace])
+                               '--flight', tf_flight.name, '--airspace', airspace_name])
         result = json.loads(result)
         return jsonify(result)
     except CalledProcessError:
