@@ -7,6 +7,7 @@ from flask import Flask, jsonify, redirect, request, send_file
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.config['JSON_AS_ASCII'] = False
+app.config['DEBUG'] = True
 
 
 @app.route('/')
@@ -28,7 +29,7 @@ def xc():
     flight.save(tf_flight.name)
 
     tf_airspace = None
-    if not request.files['airspace'].content_length:
+    if 'airspace' not in request.files or not request.files['airspace'].content_length:
         airspace_name = os.environ.get('AIRSPACE_FILE', '')
     else:
         tf_airspace = NamedTemporaryFile()
@@ -50,4 +51,4 @@ def xc():
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

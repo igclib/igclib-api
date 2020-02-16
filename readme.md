@@ -11,7 +11,7 @@ make runserver
 ## Usage
 
 ```
-curl -L -F "flight=@/path/to/igc/file" -F "airspace=@/path/to/openair/file" http://ENDPOINT/api/xc --max-time 500
+curl -L -F "flight=@/path/to/igc/file" -F "airspace=@/path/to/openair/file" http://ENDPOINT/api/xc
 ```
 
 ## Environment variables
