@@ -1,5 +1,5 @@
 from subprocess import check_output, CalledProcessError
-from os import environ
+import os
 from tempfile import NamedTemporaryFile
 import json
 from flask import Flask, jsonify, redirect, request, send_file
@@ -29,10 +29,10 @@ def xc():
 
     tf_airspace = None
     if 'airspace' not in request.files:
-        if 'AIRSPACE_FILE' not in environ:
+        if 'AIRSPACE_FILE' not in os.environ:
             airspace = None
         else:
-            airspace = environ['AIRSPACE_FILE']
+            airspace = os.environ['AIRSPACE_FILE']
     else:
         tf_airspace = NamedTemporaryFile()
         airspace = request.files['airspace']
@@ -40,7 +40,8 @@ def xc():
 
     try:
         airspace = tf_airspace.name if tf_airspace is not None else airspace
-        result = check_output([f'{os.environ['HOME']}.local/bin/igclib', 'xc', '--flight', tf_flight.name, '--airspace', airspace])
+        result = check_output([f'{os.environ["HOME"]}.local/bin/igclib', 'xc',
+                               '--flight', tf_flight.name, '--airspace', airspace])
         result = json.loads(result)
         return jsonify(result)
     except CalledProcessError:
