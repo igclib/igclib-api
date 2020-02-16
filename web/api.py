@@ -1,11 +1,12 @@
-from tempfile import NamedTemporaryFile
+from subprocess import check_output, CalledProcessError
 from os import environ
-
-from flask import Flask, jsonify, request, send_file, redirect
-from igclib.core.xc import XC
+from tempfile import NamedTemporaryFile
+import json
+from flask import Flask, jsonify, redirect, request, send_file
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+app.config['JSON_AS_ASCII'] = False
 
 
 @app.route('/')
@@ -39,9 +40,10 @@ def xc():
 
     try:
         airspace = tf_airspace.name if tf_airspace is not None else airspace
-        xc = XC(tracks=tf_flight.name, airspace=airspace, progress='silent')
-        return jsonify(xc.serialize())
-    except ValueError:
+        result = check_output([f'{os.environ['HOME']}.local/bin/igclib', 'xc', '--flight', tf_flight.name, '--airspace', airspace])
+        result = json.loads(result)
+        return jsonify(result)
+    except CalledProcessError:
         return jsonify({'error': 'bad igc file'})
     finally:
         tf_flight.close()

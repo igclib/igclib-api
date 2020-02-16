@@ -14,10 +14,6 @@ make runserver
 curl -L -F "flight=@/path/to/igc/file" -F "airspace=@/path/to/openair/file" http://ENDPOINT/api/xc --max-time 500
 ```
 
-## Problems
-
-If the airspace file is big, it can take more than one minute to check the whole flight for intersections. This processing time can lead to HTTP timeouts, so if you run this behind a proxy, make sure to tune the right settings.
-
 ## Environment variables
 
 Make sure to define
