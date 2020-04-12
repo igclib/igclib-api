@@ -9,7 +9,7 @@ app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
 app.config["JSON_AS_ASCII"] = False
 app.config["DEBUG"] = False
 
-IGCLIB_BIN = f'{os.environ["HOME"]}/dev/igclib/build/src/igclib'
+IGCLIB_BIN = f'{os.environ["HOME"]}/igclib/build/src/igclib'
 HSPOINTS_BIN = f'{os.environ["HOME"]}/usr/local/bin/xc_optimizer'
 
 
