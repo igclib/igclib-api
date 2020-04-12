@@ -7,6 +7,7 @@ from flask import Flask, jsonify, redirect, request, send_file
 app = Flask(__name__)
 app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
 app.config["JSON_AS_ASCII"] = False
+app.config["DEBUG"] = False
 
 
 @app.route("/")
@@ -48,8 +49,8 @@ def xc():
                 airspace_name,
             ]
         )
-
         airspace_result = json.loads(airspace_result)
+
         xc_result = check_output(
             [
                 # hspoints executable
@@ -60,6 +61,7 @@ def xc():
             ]
         )
         xc_result = json.loads(xc_result)
+
         airspace_result["xc_info"] = xc_result
         return jsonify(airspace_result)
     except CalledProcessError:
@@ -71,4 +73,4 @@ def xc():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
