@@ -9,6 +9,9 @@ app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
 app.config["JSON_AS_ASCII"] = False
 app.config["DEBUG"] = False
 
+IGCLIB_BIN = f'{os.environ["HOME"]}/dev/igclib/build/src/igclib'
+HSPOINTS_BIN = f'{os.environ["HOME"]}/usr/local/bin/xc_optimizer'
+
 
 @app.route("/")
 @app.route("/api")
@@ -30,7 +33,7 @@ def xc():
 
     tf_airspace = None
     if "airspace" not in request.files or not request.files["airspace"].filename:
-        airspace_name = os.environ.get("AIRSPACE_FILE", "")
+        airspace_name = os.environ.get("DEFAULT_AIRSPACE", "")
     else:
         tf_airspace = NamedTemporaryFile()
         airspace = request.files["airspace"]
@@ -39,27 +42,11 @@ def xc():
 
     try:
         airspace_result = check_output(
-            [
-                # igclib executable
-                f'{os.environ["HOME"]}/dev/igclib/build/src/igclib',
-                "xc",
-                "--flight",
-                tf_flight.name,
-                "--airspace",
-                airspace_name,
-            ]
+            [IGCLIB_BIN, "xc", "--flight", tf_flight.name, "--airspace", airspace_name,]
         )
         airspace_result = json.loads(airspace_result)
 
-        xc_result = check_output(
-            [
-                # hspoints executable
-                f'{os.environ["HOME"]}/usr/local/bin/xc_optimizer',
-                tf_flight.name,
-                "-",
-                "XC",
-            ]
-        )
+        xc_result = check_output([HSPOINTS_BIN, tf_flight.name, "-", "XC",])
         xc_result = json.loads(xc_result)
 
         airspace_result["xc_info"] = xc_result
