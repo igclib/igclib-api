@@ -3,7 +3,7 @@
 ## Setup
 
 ```
-git clone https://github.com/teobouvard/igclib-api.git
+git clone https://github.com/igclib/igclib-api.git
 make install
 make runserver
 ```
@@ -11,14 +11,14 @@ make runserver
 ## Usage
 
 ```
-curl -L -F "flight=@/path/to/igc/file" -F "airspace=@/path/to/openair/file" http://ENDPOINT/api/xc
+curl -L -F "flight=@/path/to/igc/file" -F "airspace=@/path/to/openair/file" endpoint/api/xc
 ```
 
 ## Environment variables
 
 Make sure to define
 
-- `AIRSPACE_FILE` : point to an openair airspace file
+- `AIRSPACE_FILE` : points to an openair airspace file
 - `ELEVATION_API_KEY` : API key for [elevation service](https://geolocalisation.ffvl.fr/elevation)
 
 ## Requirements

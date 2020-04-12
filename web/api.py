@@ -7,7 +7,6 @@ from flask import Flask, jsonify, redirect, request, send_file
 app = Flask(__name__)
 app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
 app.config["JSON_AS_ASCII"] = False
-app.config["DEBUG"] = True
 
 
 @app.route("/")
@@ -41,7 +40,7 @@ def xc():
         airspace_result = check_output(
             [
                 # igclib executable
-                f'{os.environ["HOME"]}/dev/igclib-stable/build/src/igclib',
+                f'{os.environ["HOME"]}/dev/igclib/build/src/igclib',
                 "xc",
                 "--flight",
                 tf_flight.name,
