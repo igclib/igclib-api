@@ -3,7 +3,7 @@
 ## Setup
 
 ```
-git clone https://github.com/teobouvard/igclib-api.git
+git clone https://github.com/igclib/igclib-api.git
 make install
 make runserver
 ```
@@ -11,18 +11,14 @@ make runserver
 ## Usage
 
 ```
-curl -L -F "flight=@/path/to/igc/file" -F "airspace=@/path/to/openair/file" http://ENDPOINT/api/xc --max-time 500
+curl -L -F "flight=@/path/to/igc/file" -F "airspace=@/path/to/openair/file" endpoint/api/xc
 ```
-
-## Problems
-
-If the airspace file is big, it can take more than one minute to check the whole flight for intersections. This processing time can lead to HTTP timeouts, so if you run this behind a proxy, make sure to tune the right settings.
 
 ## Environment variables
 
 Make sure to define
 
-- `AIRSPACE_FILE` : point to an openair airspace file
+- `AIRSPACE_FILE` : points to an openair airspace file
 - `ELEVATION_API_KEY` : API key for [elevation service](https://geolocalisation.ffvl.fr/elevation)
 
 ## Requirements
