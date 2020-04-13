@@ -18,8 +18,8 @@ curl -L -F "flight=@/path/to/igc/file" -F "airspace=@/path/to/openair/file" endp
 
 Make sure to define
 
-- `AIRSPACE_FILE` : points to an openair airspace file
-- `ELEVATION_API_KEY` : API key for [elevation service](https://geolocalisation.ffvl.fr/elevation)
+- `DEFAULT_AIRSPACE` : points to an openair airspace file, used as fallback when no airspace argument is given
+- `ELEVATION_API_KEY` : API key for [elevation service](https://geolocalisation.ffvl.fr/elevation), if you want to validate airspaces relative to ground altitude
 
 ## Requirements
 
